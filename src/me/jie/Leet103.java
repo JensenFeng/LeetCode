@@ -11,14 +11,6 @@ public class Leet103 {
          TreeNode right;
          TreeNode(int x) { val = x; }
     }
-//    private class TreeNodeLevel{
-//        TreeNode node;
-//        int level;
-//        TreeNodeLevel(TreeNode node, int level){
-//            this.node = node;
-//            this.level = level;
-//        }
-//    }
     public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
         if(root == null) return new ArrayList<>();
         List<List<Integer>> rst = new ArrayList<>();
@@ -69,4 +61,27 @@ public class Leet103 {
         return rst;
     }
 
+    //better solution
+    public List<List<Integer>> zigzagLevelOrder2(TreeNode root){
+        if(root == null) return new ArrayList<>();
+        List<List<Integer>> rst = new ArrayList<>();
+        travel(root, rst, 0);
+        return rst;
+    }
+    private void travel(TreeNode node, List<List<Integer>> rst, int level){
+        if(node == null) return;
+
+        if(rst.size() <= level){
+            List<Integer> current = new LinkedList<>();
+            rst.add(current);
+        }
+        List<Integer> collection = rst.get(level);
+        if(level % 2 == 0){
+            collection.add(node.val);
+        }else{
+            collection.add(0, node.val);
+        }
+        travel(node.left, rst, level + 1);
+        travel(node.right, rst, level + 1);
+    }
 }
