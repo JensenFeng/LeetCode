@@ -62,6 +62,9 @@ public class Leet279 {
         }
     }
 
+    /*
+        better
+     */
     public int numSquaresDP(int n){
         List<Integer> squares = new ArrayList<>();
         squares.add(0);
