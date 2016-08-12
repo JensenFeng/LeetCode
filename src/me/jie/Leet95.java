@@ -13,7 +13,7 @@ public class Leet95 {
        然后转成求  1 -> (2, n),  (1) <- 2 -> (3, n), ...
        保存中间结果 Map (i, j, root)
      */
-    public class Solution {
+    class Solution {
         Map<Pair<Integer, Integer>, List<TreeNode>> mp;
         List<TreeNode> rst;
         public List<TreeNode> generateTrees(int n) {
