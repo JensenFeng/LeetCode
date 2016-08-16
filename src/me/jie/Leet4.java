@@ -6,8 +6,6 @@ package me.jie;
  */
 public class Leet4 {
 
-}
-
 /*
   time complexity should be O(log(m + n))
 
@@ -52,4 +50,6 @@ public class Leet4 {
         }
         return ans;
     }
+}
+
 }
