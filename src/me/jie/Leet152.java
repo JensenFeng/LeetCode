@@ -44,10 +44,26 @@ public class Leet152 {
     }
 
 
-
+    public int maxProductTwo(int[] nums){
+        if(nums.length == 0) return 0;
+        int ans = nums[0];
+        int min = nums[0], max = nums[0];
+        for(int i = 1; i < nums.length; i ++){
+            if(nums[i] > 0) {
+                max = Math.max(nums[i], max * nums[i]);
+                min = Math.min(nums[i], min * nums[i]);
+            }else{
+                int tmp = max;
+                max = Math.max(nums[i], min * nums[i]);
+                min = Math.min(nums[i], tmp * nums[i]);
+            }
+            ans = Math.max(ans, max);
+        }
+        return ans;
+    }
 
     public static void main(String[] args){
-        int[] nums = {-1,0};
-        System.out.println(new Leet152().maxProductDP(nums));
+        int[] nums = {7,-2,-4};
+        System.out.println(new Leet152().maxProductTwo(nums));
     }
 }

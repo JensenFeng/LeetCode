@@ -55,4 +55,24 @@ public class Leet63 {
 
         return dp[col-1];
     }
+
+    public int uniquePathsWithObstaclesTwo(int[][] obstacleGrid) {
+        int row = obstacleGrid.length, col = obstacleGrid[0].length;
+        int[] dp = new int[col];
+        for(int i = 0; i < col; i ++){
+            if(obstacleGrid[0][i] != 1) dp[i] = 1;
+            else break;
+        }
+        for(int i = 1; i < row; i ++){
+            if(obstacleGrid[i][0] == 1) dp[0] = 0;
+            for(int j = 1; j < col; j ++){
+                if(obstacleGrid[i][j] != 1){
+                    dp[j] += dp[j-1];
+                }else{
+                    dp[j] = 0;
+                }
+            }
+        }
+        return dp[col-1];
+    }
 }
