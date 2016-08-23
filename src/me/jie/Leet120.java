@@ -80,7 +80,10 @@ public class Leet120 {
         }
         return ans;
     }
-    ///excellent
+    /*
+    excellent
+    move from bottom to top
+     */
     public int minimTotal(List<List<Integer>> triangle){
         if(triangle == null) return 0;
         int len = triangle.get(triangle.size()-1).size();
@@ -95,12 +98,38 @@ public class Leet120 {
         }
         return dp[0];
     }
+
+    public int minTotalTwo(List<List<Integer>> triangle){
+        if(triangle.size() == 0) return 0;
+        int len = triangle.get(triangle.size() - 1).size();
+        int[] nums = new int[len];
+        List<Integer> lt;
+        for(int i = 0; i < triangle.size(); i ++){
+            lt = triangle.get(i);
+            int[] tmp = nums.clone();
+            for(int j = 0; j < lt.size(); j ++){
+                if(j == 0) nums[j] += lt.get(j);
+                else if(j == lt.size() - 1) nums[j] = tmp[j-1] + lt.get(j);
+                else{
+                    nums[j] = Math.min(tmp[j-1], tmp[j]) + lt.get(j);
+                }
+            }
+        }
+        int ans = Integer.MAX_VALUE;
+        for(int i = 0; i < len; i ++){
+            System.out.println(nums[i]);
+            if(nums[i] < ans){
+                ans = nums[i];
+            }
+        }
+        return  ans;
+    }
     public static void main(String[] args){
         List<List<Integer>> lt = new ArrayList<>();
         lt.add(Arrays.asList(2));
         lt.add(Arrays.asList(3,4));
         lt.add(Arrays.asList(6,5,9));
         lt.add(Arrays.asList(4,4,8,0));
-        System.out.println(new Leet120().minimTotal(lt));
+        System.out.println(new Leet120().minTotalTwo(lt));
     }
 }

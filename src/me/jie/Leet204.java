@@ -22,7 +22,7 @@ public class Leet204 {
         return count;
     }
     public static void main(String[] args){
-        System.out.println(new Leet204().countPrimes(10));
+        System.out.println(new Leet204().countPrimes(93735));
     }
 
 }

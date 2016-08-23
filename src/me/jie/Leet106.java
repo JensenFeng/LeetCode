@@ -6,12 +6,6 @@ package me.jie;
  */
 
 public class Leet106 {
-    class TreeNode {
-         int val;
-         TreeNode left;
-         TreeNode right;
-         TreeNode(int x) { val = x; }
-     }
     public TreeNode buildTree(int[] inorder, int[] postorder) {
         int len = inorder.length;
         if(len == 0) return null;
@@ -39,4 +33,38 @@ public class Leet106 {
         return node;
     }
 
+    public TreeNode buildTreeTwo(int[] inorder, int[] postorder){
+        if(inorder.length == 0) return null;
+        TreeNode root = null;
+        if(inorder.length == 1) {
+            root = new TreeNode(inorder[0]);
+            return root;
+        }
+        int len = inorder.length;
+
+        int val = postorder[len-1];
+        root = new TreeNode(val);
+        int i, pos;
+        for(i = 0; i < len; i ++){
+            if(inorder[i] == val) break;
+        }
+        int left = i, right = len - i - 1;
+        pos = i;
+        //clone arr
+        int[] larr1 = new int[left];
+        int[] larr2 = new int[left];
+        for(i = 0; i < left; i ++){
+            larr1[i] = inorder[i];
+            larr2[i] = postorder[i];
+        }
+        int[] rarr1 = new int[right];
+        int[] rarr2 = new int[right];
+        for(i = 0; i < right; i ++){
+            rarr1[i] = inorder[pos + 1 + i];
+            rarr2[i] = postorder[pos + i];
+        }
+        root.left = buildTreeTwo(larr1, larr2);
+        root.right = buildTreeTwo(rarr1, rarr2);
+        return root;
+    }
 }
