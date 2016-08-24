@@ -82,7 +82,30 @@ public class Leet6 {
         return sb[0].toString();
     }
 
+    public String convertTwo(String s, int numRows){
+        StringBuilder[] sb = new StringBuilder[numRows];
+        for(int i = 0; i < numRows; i ++){
+            sb[i] = new StringBuilder();
+        }
+        char[] str = s.toCharArray();
+        int i = 0, len = s.length();
+        while(i < len){
+            for(int j = 0; j < numRows && i < len; j ++){
+                sb[j].append(str[i ++]);
+            }
+            for(int j = numRows - 2; j > 0 && i < len; j --){
+                sb[j].append(str[i ++]);
+            }
+        }
+        StringBuilder ans = new StringBuilder();
+        for(i = 0; i < numRows; i ++) {
+            ans.append(sb[i]);
+        }
+        return ans.toString();
+    }
     public static void main(String[] args){
-        System.out.println(new Leet6().convert2("PAHNAPLSIIGYIR", 3));
+        String s = "PAHNAPLSIIGYIR"; int n = 4;
+        System.out.println(new Leet6().convert2(s, n) + " " +
+                new Leet6().convertTwo(s, n));
     }
 }
