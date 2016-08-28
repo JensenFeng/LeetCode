@@ -72,8 +72,33 @@ public class Leet91 {
         }
         return dp[0];
     }
+    /*
+    dp
+     */
+    public int numDecodingTwo(String s){
+        if(s.length() == 0) return 0;
+        int prei1 = 1, cur = 0, prei2 = 1;
+
+        for(int i = 0; i < s.length(); i ++){
+            int tmp1 = 0;
+            if(i > 0)
+                if(s.charAt(i-1) != '0') {
+                    tmp1 = Integer.parseInt(s.charAt(i - 1) + "" + s.charAt(i));
+                }
+            int tmp2 = Integer.parseInt(s.charAt(i) + "");
+            cur = 0;
+            if(tmp2 > 0){
+                cur = prei1;
+            }
+            if(tmp1 > 0 && tmp1 <= 26) cur += prei2;
+            if(cur == 0) break;
+            prei2 = prei1;
+            prei1 = cur;
+        }
+        return cur;
+    }
     public static void main(String[] args){
-        System.out.println(new Leet91().numDecodings("10"));
+        System.out.println(new Leet91().numDecodingTwo("101"));
     }
 
 }
