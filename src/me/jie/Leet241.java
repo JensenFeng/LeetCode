@@ -2,6 +2,7 @@ package me.jie;
 
 /**
  * Created by jie on 7/19/16.
+ * https://leetcode.com/problems/different-ways-to-add-parentheses/
  */
 import java.util.*;
 public class Leet241 {
@@ -87,8 +88,55 @@ public class Leet241 {
         }
     }
 
+
+    public List<Integer> diffWaysToComputeTwo(String input){
+        if(input.length() == 0) return new ArrayList<>();
+        char[] s = input.toCharArray();
+        List<Integer> rst = new ArrayList<>();
+
+        //first step: find operators pos
+        int[] pos = new int[input.length() / 2];
+        int len = 0;
+        for(int i = 0; i < input.length(); i ++){
+            if(s[i] == '-' || s[i] == '+' || s[i] == '*') pos[len ++] = i;
+        }
+        //second: compute
+        if(len == 0){
+            int sum = 0;
+            for(int i = 0; i < input.length(); i ++){
+                sum = sum * 10 + (s[i] - '0');
+            }
+            rst.add(sum);
+            return rst;
+        }
+        for(int i = 0; i < len; i ++){
+
+            List<Integer> left = diffWaysToComputeTwo(input.substring(0, pos[i]));
+            List<Integer> right = diffWaysToComputeTwo(input.substring(pos[i] + 1, input.length()));
+            char e = s[pos[i]];
+
+            for(int k = 0; k < left.size(); k ++){
+                for(int j = 0; j < right.size(); j ++){
+                    switch(e) {
+                        case '-': {
+                            rst.add(left.get(k) - right.get(j));
+                        } break;
+
+                        case '+': {
+                            rst.add(left.get(k) + right.get(j));
+                        } break;
+
+                        case '*': {
+                            rst.add(left.get(k) * right.get(j));
+                        } break;
+                    }
+                }
+            }
+        }
+        return rst;
+    }
     public static void main(String[] args){
-        List<Integer> rst = new Leet241().diffWaysToCompute("12");
+        List<Integer> rst = new Leet241().diffWaysToComputeTwo("2*3-4*5");
         System.out.println(rst);
     }
 }
