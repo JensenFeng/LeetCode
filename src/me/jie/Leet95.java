@@ -118,16 +118,55 @@ public class Leet95 {
     }
     Solution s1 = new Solution();
     Solution2 s2 = new Solution2();
+    SolutionTwo t = new SolutionTwo();
     private void test(){
-        int  n = 13;
-        long t = System.currentTimeMillis();
-        s1.generateTrees(n);
-        System.out.println(System.currentTimeMillis() - t);
+        int  n = 10;
+//        long t = System.currentTimeMillis();
+//        s1.generateTrees(n);
+//        System.out.println(System.currentTimeMillis() - t);
 
         long t1 = System.currentTimeMillis();
         s2.generateTrees(n);
         System.out.println(System.currentTimeMillis() - t1);
 
+        long tt = System.currentTimeMillis();
+        List<TreeNode> rst = t.generateTrees(n);
+        System.out.println(System.currentTimeMillis() - tt);
+    }
+
+    public class SolutionTwo{
+        private Map<Pair<Integer, Integer>, List<TreeNode>> mp;
+        public List<TreeNode> generateTrees(int n) {
+            if(n == 0) return new ArrayList<>();
+            mp = new HashMap<>();
+            return generateTree(1, n);
+        }
+        private List<TreeNode> generateTree(int lo, int hi){
+            List<TreeNode> lst = new ArrayList<>();
+            if(lo > hi) {
+                lst.add(null);
+                return lst;
+            }
+            Pair<Integer, Integer> pair = new Pair<>(lo, hi);
+            if(mp.containsKey(pair)){
+                return mp.get(pair);
+            }
+            TreeNode root;
+            for(int i = lo; i <= hi; i ++){
+                List<TreeNode> left = generateTree(lo, i-1);
+                List<TreeNode> right = generateTree(i + 1, hi);
+                for (TreeNode l : left) {
+                    for (TreeNode r : right) {
+                        root = new TreeNode(i);
+                        root.left = l;
+                        root.right = r;
+                        lst.add(root);
+                    }
+                }
+            }
+            mp.put(pair, lst);
+            return lst;
+        }
     }
     public static void main(String[] args){
         new Leet95().test();

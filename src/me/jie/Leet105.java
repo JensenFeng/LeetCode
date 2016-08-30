@@ -4,14 +4,10 @@ import java.util.*;
 
 /**
  * Created by jie on 8/5/16.
+ * https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/
  */
 public class Leet105 {
-    class TreeNode {
-             int val;
-             TreeNode left;
-             TreeNode right;
-             TreeNode(int x) { val = x; }
-         }
+
     Map<Integer, Integer> mp;
     public TreeNode buildTree(int[] preorder, int[] inorder) {
         int len = preorder.length;
@@ -54,6 +50,34 @@ public class Leet105 {
                     TreeNode node = new TreeNode(preorder[i]);
                     curr.right = node;
                     stack.push(node);
+                }
+            }
+        }
+        return root;
+    }
+
+    public TreeNode buildTreeTwo(int[] preorder, int[] inorder) {
+        int len = preorder.length;
+        TreeNode root = new TreeNode(preorder[0]);
+        Stack<TreeNode> stk = new Stack<>();
+        stk.push(root);
+        int index = 0;
+        for(int i = 1; i < len; i ++){
+            TreeNode cur = stk.peek();
+            if(cur.val != inorder[index]){
+                TreeNode node = new TreeNode(preorder[i]);
+                cur.left = node;
+                stk.push(node);
+            }else{
+                //find rightTree
+                while(!stk.isEmpty() && stk.peek().val == inorder[index]){
+                    cur = stk.pop();
+                    index ++;
+                }
+                if(index < len){
+                    TreeNode node = new TreeNode(preorder[i]);
+                    cur.right = node;
+                    stk.push(node);
                 }
             }
         }
