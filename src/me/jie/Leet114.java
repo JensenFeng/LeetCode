@@ -60,4 +60,19 @@ public class Leet114 {
     /*more better
     https://discuss.leetcode.com/topic/11444/my-short-post-order-traversal-java-solution-for-share
      */
+    public void flattenPostOrder(TreeNode root){
+        while(root != null){
+            TreeNode left = root.left;
+            while(left != null && left.right != null){
+                left = left.right;
+            }
+            if(left != null) {
+                TreeNode right = root.right;
+                root.right = root.left;
+                left.right = right;
+                root.left = null;
+            }
+            root = root.right;
+        }
+    }
 }
