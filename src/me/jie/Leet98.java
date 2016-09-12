@@ -7,12 +7,6 @@ package me.jie;
 import java.util.*;
 
 public class Leet98 {
-    class TreeNode {
-             int val;
-             TreeNode left;
-             TreeNode right;
-             TreeNode(int x) { val = x; }
-    }
     public boolean isValidBST(TreeNode root) {
         if(root == null) return true;
         List<Integer> rst = new ArrayList<>();
@@ -64,5 +58,15 @@ public class Leet98 {
         if(root == null) return true;
         if(min != null && root.val <= min || max != null && root.val >= max) return false;
         return isValidBST(root.left, min, root.val) && isValidBST(root.right, root.val, max);
+    }
+    public boolean isValidBSTTwo(TreeNode root) {
+        if(root == null) return true;
+        return isValid(root, null, null);
+    }
+    private boolean isValid(TreeNode root, Integer left, Integer right){
+        if(root == null) return true;
+        if(left != null && root.val <= left || right != null && root.val >= right)
+            return false;
+        return isValid(root.left, left, root.val) && isValid(root.right, root.val, right);
     }
 }

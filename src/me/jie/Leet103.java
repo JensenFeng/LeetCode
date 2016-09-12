@@ -5,12 +5,6 @@ package me.jie;
  */
 import java.util.*;
 public class Leet103 {
-    private class TreeNode {
-         int val;
-         TreeNode left;
-         TreeNode right;
-         TreeNode(int x) { val = x; }
-    }
     public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
         if(root == null) return new ArrayList<>();
         List<List<Integer>> rst = new ArrayList<>();
@@ -84,4 +78,93 @@ public class Leet103 {
         travel(node.left, rst, level + 1);
         travel(node.right, rst, level + 1);
     }
+    public List<List<Integer>> zigzagLevelOrderTwo(TreeNode root){
+        if(root == null) return new ArrayList<>();
+        List<List<Integer>> rst = new ArrayList<>();
+        Queue<TreeNode> queue = new LinkedList<>();
+
+        List<Integer> level = new ArrayList<>();
+        queue.add(root);
+        TreeNode cur;
+        int nowLevel = 1;
+        int nextLevel = 0;
+        while(!queue.isEmpty()){
+            cur = queue.poll();
+            nowLevel --;
+            level.add(cur.val);
+            if(cur.left != null){
+                queue.offer(cur.left);
+                nextLevel ++;
+            }
+            if(cur.right != null){
+                queue.offer(cur.right);
+                nextLevel ++;
+            }
+
+            if(nowLevel == 0){
+                rst.add(new ArrayList<>(level));
+                level.clear();
+                nowLevel = nextLevel;
+                nextLevel = 0;
+            }
+        }
+        for(int i = 1; i < rst.size(); i += 2){
+            level = rst.get(i);
+            for(int j = 0; j < level.size(); j ++){
+                level.add(0, level.get(j));
+                level.remove(j + 1);
+            }
+            rst.remove(i);
+            rst.add(i, level);
+        }
+        return rst;
+    }
+
+    public List<List<Integer>> zigzagLevelOrderStack(TreeNode root){
+        if(root == null) return new ArrayList<>();
+        List<List<Integer>> rst = new ArrayList<>();
+        Stack<TreeNode> cur  = new Stack<>();
+        Stack<TreeNode> next = new Stack<>();
+        List<Integer> level = new ArrayList<>();
+
+        cur.push(root);
+        level.add(root.val);
+        rst.add(new ArrayList<>(level));level.clear();
+
+        TreeNode node;
+        boolean dire = false;
+
+        while(!cur.isEmpty()){
+            node = cur.pop();
+            if(!dire) {
+                if (node.right != null) {
+                    next.push(node.right);
+                    level.add(node.right.val);
+                }
+                if (node.left != null) {
+                    next.push(node.left);
+                    level.add(node.left.val);
+                }
+            }else{
+                if (node.left != null) {
+                    next.push(node.left);
+                    level.add(node.left.val);
+                }
+                if (node.right != null) {
+                    next.push(node.right);
+                    level.add(node.right.val);
+                }
+            }
+            if(cur.isEmpty()){
+                cur = next;
+                next = new Stack<>();
+                rst.add(new ArrayList<>(level));
+                level.clear();
+                dire = dire ? false : true;
+            }
+        }
+        rst.remove(rst.size()-1);
+        return rst;
+    }
+
 }
