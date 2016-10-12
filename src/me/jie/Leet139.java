@@ -74,8 +74,11 @@ public class Leet139 {
         }
         return dp[s.length()];
     }
+
+
+
     public static void main(String[] args){
-        String[] tmp = {"a", "aa", "aaa"};
+        String[] tmp = {"a", "aa", "ab"};
         Set<String> wd = new HashSet<>();
         for(String s: tmp){
             wd.add(s);

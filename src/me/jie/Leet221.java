@@ -4,7 +4,7 @@ package me.jie;
  * Created by jie on 7/24/16.
  */
 public class Leet221 {
-    public int maximalSquare(char[][] matrix) {
+    public int maximalSquare1(char[][] matrix) {
         if(matrix.length == 0) return 0;
         int row = matrix.length;
         int col = matrix[0].length;
@@ -83,12 +83,34 @@ public class Leet221 {
     }
     //more better solution
     //add after
+
+    public int maximalSquare(char[][] matrix) {
+        if(matrix.length == 0) return 0;
+        int row = matrix.length;
+        int col = matrix[0].length;
+        int[] dp = new int[col+1];
+        int ans = 0;
+        int pre = 0;
+        for(int i = 1; i <= row; i ++) {
+            for (int j = 1; j <= col; j++) {
+                int tmp = dp[j];
+                if (matrix[i - 1][j - 1] == '1') {
+                    dp[j] = Math.min(dp[j], Math.min(dp[j - 1], pre)) + 1;
+                } else {
+                    dp[j] = 0;
+                }
+                pre = tmp;
+                ans = Math.max(ans, dp[j]);
+            }
+        }
+        return ans * ans;
+    }
     public static void main(String[] args){
-        String[] str = {"1"};
+        String[] str = {"11111", "10111", "10111", "10010"};
         char[][] matrix = new char[str.length][str[0].length()];
         for(int i = 0; i < str.length; i ++){
             matrix[i] = str[i].toCharArray();
         }
-        System.out.println(new Leet221().maxSquare(matrix));
+        System.out.println(new Leet221().maximalSquare(matrix));
     }
 }

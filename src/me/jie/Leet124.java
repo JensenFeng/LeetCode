@@ -73,4 +73,23 @@ public class Leet124 {
         maxSum = Math.max(maxSum, left + right + root.val);
         return Math.max(left, right) + root.val;
     }
+
+    private int ansSum = Integer.MIN_VALUE;
+    public int maxPathsum(TreeNode root){
+        if(root == null) return 0;
+        helper(root);
+        return ansSum;
+    }
+    private int helper(TreeNode node){
+        if(node == null) return 0;
+        int left = helper(node.left);
+        int right = helper(node.right);
+        int curSum = Math.max(left, right) + node.val;
+        ansSum = Math.max(ansSum, node.val);
+        if(left > 0 && right > 0) {
+            ansSum = Math.max(ansSum, left + right + node.val);
+        }
+        ansSum = Math.max(ansSum, curSum);
+        return Math.max(curSum, node.val);
+    }
 }

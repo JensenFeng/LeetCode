@@ -110,6 +110,38 @@ public class Leet207 {
         return count == numCourses;
     }
 
+    public boolean bfs(int numCourses, int[][] prerequisites){
+        int row = prerequisites.length;
+        int[][] mark = new int[numCourses][numCourses];
+        int[] indegree = new int[numCourses];
+        for(int i = 0; i < row; i ++){
+            int t1 = prerequisites[i][0];
+            int t2 = prerequisites[i][1];
+            if(mark[t2][t1] == 0){
+                indegree[t1] ++;
+            }
+            mark[t2][t1] = 1;
+        }
+        Queue<Integer> queue = new LinkedList<>();
+        for(int i = 0; i < numCourses; i ++){
+            if(indegree[i] == 0){
+                queue.offer(i);
+            }
+        }
+        int count = 0;
+        while(!queue.isEmpty()){
+            int p = queue.poll();
+            count ++;
+            for(int i = 0; i < numCourses; i ++){
+                if(mark[p][i] == 1){
+                    if(--indegree[i] == 0){
+                        queue.offer(i);
+                    }
+                }
+            }
+        }
+        return count == numCourses;
+    }
     public static void main(String[] args){
         int[][] pre = {{1,0},{2,0}};
         System.out.println(new Leet207().canFinishbfs(3, pre));

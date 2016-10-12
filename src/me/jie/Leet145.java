@@ -61,4 +61,34 @@ public class Leet145 {
         }
         return rst;
     }
+
+    public List<Integer> postorderTraversal(TreeNode root){
+        if(root == null) return new ArrayList<>();
+        List<Integer> rst = new ArrayList<>();
+        Stack<TreeNode> stk = new Stack<>();
+        stk.push(root);
+        Set<TreeNode> st = new HashSet<>();
+        TreeNode cur;
+        while(!stk.isEmpty()){
+            cur = stk.peek();
+            if (st.contains(cur)) {
+                rst.add(cur.val);
+                stk.pop();
+            } else{
+                if(cur.right == null && cur.left == null){
+                    rst.add(cur.val);
+                    stk.pop();
+                }else {
+                    if(cur.right != null){
+                        stk.push(cur.right);
+                    }
+                    if(cur.left != null){
+                        stk.push(cur.left);
+                    }
+                }
+                st.add(cur);
+            }
+        }
+        return rst;
+    }
 }

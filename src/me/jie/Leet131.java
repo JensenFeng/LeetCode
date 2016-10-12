@@ -46,8 +46,26 @@ public class Leet131 {
         return true;
     }
 
+    public List<List<String>> partition2(String s) {
+        List<List<String>> rst = new ArrayList<>();
+        dfs(rst, new ArrayList<>(), s);
+        return rst;
+    }
+    private void dfs(List<List<String>> rst, List<String> cur, String s){
+        if(s.length() == 0) {
+            rst.add(new ArrayList<>(cur));
+            return;
+        }
+        for(int i = 1; i <= s.length(); i ++){
+            if(isPalindrome(s, 0, i-1)){
+                cur.add(s.substring(0, i));
+                dfs(rst, cur, s.substring(i, s.length()));
+                cur.remove(cur.size()-1);
+            }
+        }
+    }
     public static void main(String[] args){
-        List<List<String>> rst = new Leet131().partition("aabb");
+        List<List<String>> rst = new Leet131().partition2("aabb");
         rst.forEach(lt -> System.out.println(lt));
     }
 }

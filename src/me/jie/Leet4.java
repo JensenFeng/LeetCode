@@ -10,7 +10,7 @@ public class Leet4 {
   time complexity should be O(log(m + n))
 
  */
- class Solution {
+    class Solution {
     /*
     https://discuss.leetcode.com/topic/4996/share-my-o-log-min-m-n-solution-with-explanation
      */
@@ -52,4 +52,38 @@ public class Leet4 {
     }
 }
 
+    public double findMedianSortedArrays(int[] nums1, int[] nums2) {
+        int m = nums1.length, n = nums2.length;
+        if(m > n) return findMedianSortedArrays(nums2, nums1);
+        int mini = 0, maxi = m, halfLen = (m + n + 1) / 2;
+
+        while(mini <= maxi){
+            int i = (mini + maxi) / 2;
+            int j = halfLen - i;
+            if(i > 0 && nums1[i-1] > nums2[j]){
+                //small
+                maxi = i - 1;
+            }else if(i < m && nums1[i] < nums2[j-1]){
+                //big
+                mini = i + 1;
+            }else{
+                //i is perfect
+                int maxofLeft, minofRight;
+                if(i == 0) maxofLeft = nums2[j-1];
+                else if(j == 0) maxofLeft = nums1[i-1];
+                else maxofLeft = Math.max(nums1[i-1], nums2[j-1]);
+
+                if((m + n) % 2 == 1){
+                    return maxofLeft * 1.0;
+                }
+
+                if(i == m) minofRight = nums2[j];
+                else if(j == n) minofRight = nums1[i];
+                else minofRight = Math.min(nums1[i], nums2[j]);
+
+                return (maxofLeft + minofRight) * 1.0 / 2;
+            }
+        }
+        return 0.0;
+    }
 }
